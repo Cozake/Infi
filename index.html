@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05060f">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Uma viagem te espera">
+<meta property="og:description" content="Um convite especial. Toque no prisma.">
+<title>Uma viagem te espera</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,12 90,84 10,84' fill='none' stroke='%23fff' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Josefin+Sans:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --espaco:#05060f; --roxo:#1a1040; --luz:#f4f1ea; --ambar:#ffb347; --ciano:#6fe3ff;
+    --espectro:linear-gradient(90deg,#ff4d4d,#ffb347,#ffe66d,#6fe3a0,#6fb9ff,#b58cff);
+    --titulo:'Syncopate','Eurostile','Arial Black',sans-serif;
+    --texto:'Josefin Sans','Century Gothic',Arial,sans-serif;
+    --mono:'Space Mono','Courier New',monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{overflow-x:hidden;scroll-behavior:smooth}
+  body{
+    min-height:100vh;color:var(--luz);font-family:var(--texto);font-weight:300;line-height:1.6;overflow-x:hidden;
+    background:
+      radial-gradient(ellipse 80% 50% at 15% 10%,rgba(90,60,200,.35),transparent 70%),
+      radial-gradient(ellipse 70% 45% at 90% 55%,rgba(30,110,200,.25),transparent 70%),
+      radial-gradient(ellipse 90% 60% at 40% 100%,rgba(190,60,140,.22),transparent 70%),
+      var(--espaco);
+    background-attachment:fixed;
+    padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  :focus-visible{outline:2px solid var(--ciano);outline-offset:4px}
+  [hidden]{display:none!important}
+
+  .estrelas{position:fixed;inset:0;pointer-events:none;z-index:0}
+  .estrela{position:absolute;border-radius:50%;background:#fff;opacity:.2;animation:brilha var(--t,4s) ease-in-out var(--d,0s) infinite alternate}
+  @keyframes brilha{to{opacity:.95}}
+
+  main{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:48px 22px 100px;text-align:center}
+
+  h1{
+    font-family:var(--titulo);font-weight:700;line-height:1.1;letter-spacing:.06em;
+    font-size:clamp(2.1rem,11vw,3.6rem);
+    background:var(--espectro);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .sub{font-size:1.15rem;letter-spacing:.32em;text-transform:uppercase;margin:12px 0 30px;color:rgba(244,241,234,.75)}
+
+  /* prisma */
+  .prisma-btn{
+    background:none;border:0;color:inherit;font:inherit;cursor:pointer;display:block;margin:0 auto;padding:4px;
+    width:min(100%,400px);position:relative;z-index:2;
+  }
+  .cena{position:relative;width:100%;height:190px}
+  .luz-entrada{
+    position:absolute;left:0;top:92px;width:42%;height:3px;
+    background:linear-gradient(to right,transparent,#fff);opacity:.45;transition:opacity 1s,box-shadow 1s;
+  }
+  .triangulo{position:absolute;left:36%;top:24px;width:124px;height:110px;overflow:visible;transition:filter 1.2s}
+  .triangulo polygon{fill:rgba(255,255,255,.07);stroke:#fff;stroke-width:2.2;stroke-linejoin:round}
+  .espectro{
+    position:absolute;left:58%;top:40px;width:42%;height:110px;
+    clip-path:inset(0 100% 0 0);transition:clip-path 1.8s cubic-bezier(.3,.7,.2,1);
+  }
+  .espectro i{position:absolute;inset:0;display:block;opacity:.92}
+  .espectro i:nth-child(1){background:#ff4d4d;clip-path:polygon(0 50%,100% 0,100% 16.6%)}
+  .espectro i:nth-child(2){background:#ff9a3c;clip-path:polygon(0 50%,100% 16.6%,100% 33.3%)}
+  .espectro i:nth-child(3){background:#ffe66d;clip-path:polygon(0 50%,100% 33.3%,100% 50%)}
+  .espectro i:nth-child(4){background:#6fe3a0;clip-path:polygon(0 50%,100% 50%,100% 66.6%)}
+  .espectro i:nth-child(5){background:#6fb9ff;clip-path:polygon(0 50%,100% 66.6%,100% 83.3%)}
+  .espectro i:nth-child(6){background:#b58cff;clip-path:polygon(0 50%,100% 83.3%,100% 100%)}
+  .prisma-btn .rotulo{display:block;margin-top:6px;letter-spacing:.3em;text-transform:uppercase;font-size:.95rem;color:var(--ciano)}
+  .prisma-btn:hover .triangulo{filter:drop-shadow(0 0 10px rgba(255,255,255,.8))}
+  .prisma-btn.on .luz-entrada{opacity:1;box-shadow:0 0 14px 2px rgba(255,255,255,.9)}
+  .prisma-btn.on .espectro{clip-path:inset(0 0 0 0)}
+  .prisma-btn.on .triangulo{filter:drop-shadow(0 0 14px rgba(255,255,255,.9))}
+
+  /* janela com o clipe */
+  .janela{
+    width:min(100%,460px);aspect-ratio:16/9;min-height:200px;margin:26px auto 8px;position:relative;
+    border-radius:14px;overflow:hidden;background:#000;
+    border:1px solid rgba(255,255,255,.35);box-shadow:0 0 60px rgba(120,100,255,.35),0 0 0 6px rgba(255,255,255,.04);
+  }
+  .janela iframe,.janela #player{position:absolute;inset:0;width:100%;height:100%;border:0}
+  .legenda{font-style:italic;font-size:1.1rem;margin:16px 0 0;color:rgba(244,241,234,.7)}
+  #erro{margin:12px 0;font-size:.95rem}
+  #erro a{color:var(--ciano)}
+
+  /* versos */
+  .versos{margin-top:40px}
+  .verso{
+    font-size:clamp(1.5rem,6.2vw,2.1rem);line-height:1.35;font-weight:300;max-width:20ch;margin:0 auto 34px;
+    opacity:0;filter:blur(9px);letter-spacing:.18em;transform:translateY(10px);
+    transition:opacity 2s ease,filter 2s ease,letter-spacing 2.4s ease,transform 2s ease;
+  }
+  .verso.on{opacity:1;filter:none;letter-spacing:.02em;transform:none}
+
+  /* passagem */
+  .passagem{
+    width:min(100%,380px);margin:46px auto;text-align:left;position:relative;border-radius:16px;
+    padding:2px;background:var(--espectro);opacity:0;transform:translateY(14px);
+    transition:opacity 1.4s,transform 1.4s;box-shadow:0 0 50px rgba(120,100,255,.35);
+  }
+  .passagem.on{opacity:1;transform:none}
+  .pass-int{border-radius:14px;background:linear-gradient(160deg,#0d0b24,#07081a);overflow:hidden}
+  .pass-corpo{padding:24px 24px 20px}
+  .pass-corpo .marca{font-family:var(--mono);font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ciano)}
+  .pass-corpo h2{font-family:var(--titulo);font-weight:700;font-size:1.55rem;line-height:1.2;letter-spacing:.05em;margin:8px 0 16px}
+  .pass-corpo dl{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-family:var(--mono);font-size:.86rem}
+  .pass-corpo dt{color:var(--ambar);text-transform:uppercase}
+  .pass-corpo dd{margin:0}
+  .pass-canhoto{
+    display:flex;justify-content:space-between;align-items:center;padding:12px 24px;
+    border-top:1px dashed rgba(255,255,255,.4);font-family:var(--mono);font-size:.8rem;letter-spacing:.18em;color:rgba(244,241,234,.8)
+  }
+
+  /* pergunta */
+  .pergunta{opacity:0;transition:opacity 1.2s}
+  .pergunta.on{opacity:1}
+  .pergunta h2{
+    font-family:var(--titulo);font-weight:700;font-size:clamp(1.9rem,9.5vw,3rem);letter-spacing:.06em;margin-bottom:26px;
+    background:var(--espectro);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .opcoes{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;align-items:center}
+  button.acao{
+    font-family:var(--texto);font-weight:400;font-size:1.05rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+    position:relative;z-index:2;padding:14px 30px;border-radius:999px;color:var(--luz);background:transparent;
+    border:1px solid rgba(255,255,255,.55);transition:transform .35s,background .25s,color .25s;
+  }
+  button.acao:hover{background:var(--luz);color:var(--espaco)}
+  button.acao.forte{border-color:transparent;background:linear-gradient(var(--espaco),var(--espaco)) padding-box,var(--espectro) border-box;border:2px solid transparent;font-size:1.15rem}
+  button.acao.forte:hover{background:var(--luz);color:var(--espaco)}
+  #sim{transform:scale(var(--s,1))}
+  #talvez{max-width:24ch;line-height:1.3;text-transform:none;letter-spacing:.04em}
+
+  .resposta h2{
+    font-family:var(--titulo);font-weight:700;font-size:clamp(1.8rem,9vw,2.8rem);line-height:1.15;letter-spacing:.05em;margin-bottom:14px;
+    background:var(--espectro);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .resposta p{margin-bottom:26px;font-size:1.2rem}
+  a.zap{display:inline-block;text-decoration:none;padding:14px 32px;border-radius:999px;letter-spacing:.14em;text-transform:uppercase;font-weight:400;color:var(--espaco);background:var(--luz)}
+  a.zap:hover{background:var(--ciano)}
+
+  /* chuva de estrelas */
+  .chuva{
+    position:fixed;top:-30px;width:16px;height:16px;pointer-events:none;z-index:9;
+    clip-path:polygon(50% 0,61% 38%,100% 38%,69% 60%,80% 100%,50% 76%,20% 100%,31% 60%,0 38%,39% 38%);
+    animation:cai linear forwards;
+  }
+  @keyframes cai{to{transform:translate(var(--dx),112vh) rotate(var(--r))}}
+  .clarao{position:fixed;inset:0;z-index:8;pointer-events:none;background:var(--espectro);mix-blend-mode:screen;animation:some 1.1s ease-out forwards}
+  @keyframes some{from{opacity:.5}to{opacity:0}}
+
+  @media (prefers-reduced-motion:reduce){
+    .estrela{animation:none}
+    .verso,.passagem,.pergunta{transition:none;filter:none}
+    .espectro{transition:none}
+    .chuva,.clarao{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="estrelas" id="estrelas" aria-hidden="true"></div>
+<noscript><p style="padding:24px;text-align:center">Ative o JavaScript do navegador para abrir este convite.</p></noscript>
+
+<main>
+  <h1 id="nome-titulo"></h1>
+  <p class="sub">uma viagem te espera</p>
+
+  <button class="prisma-btn" id="prisma" aria-label="Tocar no prisma para começar a música e o convite">
+    <div class="cena">
+      <div class="luz-entrada"></div>
+      <svg class="triangulo" viewBox="0 0 124 110" aria-hidden="true"><polygon points="62,4 120,106 4,106"/></svg>
+      <div class="espectro"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </div>
+    <span class="rotulo" id="rotulo">Toque no prisma</span>
+  </button>
+
+  <div class="janela"><div id="player"></div></div>
+  <p id="erro" hidden>
+    O vídeo não carregou aqui.
+    <a id="link-yt" target="_blank" rel="noopener">Abrir a música no YouTube</a>
+  </p>
+  <p class="legenda" id="legenda">Aumente o volume antes de começar.</p>
+
+  <section class="versos" id="versos" aria-live="polite"></section>
+
+  <section class="passagem" id="passagem" hidden>
+    <div class="pass-int">
+      <div class="pass-corpo">
+        <p class="marca">Passagem exclusiva</p>
+        <h2>Rock em órbita</h2>
+        <dl>
+          <dt>Passageira</dt><dd id="d-nome"></dd>
+          <dt>Data</dt><dd id="d-data"></dd>
+          <dt>Hora</dt><dd id="d-hora"></dd>
+          <dt>Destino</dt><dd id="d-local"></dd>
+        </dl>
+      </div>
+      <div class="pass-canhoto"><span>EMBARQUE</span><span>Nº 0001</span></div>
+    </div>
+  </section>
+
+  <section class="pergunta" id="pergunta" hidden>
+    <h2>Embarca comigo?</h2>
+    <div class="opcoes">
+      <button class="acao forte" id="sim">Embarcar</button>
+      <button class="acao" id="talvez">Deixa eu pensar</button>
+    </div>
+  </section>
+
+  <section class="resposta" id="resposta" hidden>
+    <h2>Embarque confirmado</h2>
+    <p>Combinado. Prepare-se para uma viagem e tanto.</p>
+    <a class="zap" id="zap" target="_blank" rel="noopener">Avisar que você aceitou</a>
+  </section>
+</main>
+
+<script>
+/* =====================================================
+   PERSONALIZE AQUI
+   ===================================================== */
+const CONFIG = {
+  nomeDela: "Camila",
+  seuNome:  "César",
+  data:     "A combinar",
+  hora:     "A combinar",
+  local:    "Surpresa",
+  whatsapp: "5541996856846",   // DDI + DDD + número, só dígitos
+  videoId:  "84Tq-eAJIk4"      // Pink Floyd - Wish You Were Here (código depois de ?v= no link do YouTube)
+};
+/* ===================================================== */
+
+const $ = id => document.getElementById(id);
+const reduzir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+$('nome-titulo').textContent = CONFIG.nomeDela + ",";
+$('d-nome').textContent = CONFIG.nomeDela;
+$('d-data').textContent = CONFIG.data;
+$('d-hora').textContent = CONFIG.hora;
+$('d-local').textContent = CONFIG.local;
+$('link-yt').href = 'https://www.youtube.com/watch?v=' + CONFIG.videoId;
+document.title = CONFIG.nomeDela + ", uma viagem te espera";
+
+const versos = [
+  "Tem bandas que a gente não escuta. A gente viaja.",
+  "Pink Floyd, Eloy: guitarras que levam a gente para longe.",
+  CONFIG.nomeDela + ", eu queria te levar para uma viagem assim.",
+  "Hoje a trilha é Wish You Were Here, e eu queria muito que você estivesse aqui."
+];
+
+/* céu de estrelas */
+(function(){
+  const box = $('estrelas'), n = reduzir ? 40 : 90;
+  for (let i = 0; i < n; i++){
+    const e = document.createElement('i'); e.className = 'estrela';
+    const t = Math.random() * 2.2 + .8;
+    e.style.cssText = `left:${Math.random()*100}%;top:${Math.random()*100}%;width:${t}px;height:${t}px;--t:${3+Math.random()*4}s;--d:${Math.random()*4}s`;
+    box.appendChild(e);
+  }
+})();
+
+/* ---------------- música (YouTube) ---------------- */
+let player = null, pronto = false, querTocar = false;
+
+function diag(txt){
+  console.log('[convite]', txt);
+  if (location.search.includes('teste')){
+    let d = $('diag');
+    if (!d){
+      d = document.createElement('div'); d.id = 'diag';
+      d.style.cssText = 'position:fixed;left:12px;bottom:24px;z-index:20;background:#fff;color:#000;padding:8px 12px;font:13px/1.4 sans-serif;max-width:80vw';
+      document.body.appendChild(d);
+    }
+    d.textContent = txt;
+  }
+}
+function mostrarErro(){ $('erro').hidden = false; }
+
+window.onYouTubeIframeAPIReady = function(){
+  try {
+    player = new YT.Player('player', {
+      width:'100%', height:'100%', videoId: CONFIG.videoId,
+      playerVars:{playsinline:1, rel:0, modestbranding:1},
+      events:{
+        onReady(){ pronto = true; diag('Player pronto'); if (querTocar) player.playVideo(); },
+        onError(e){ diag('Erro do YouTube: ' + e.data); mostrarErro(); }
+      }
+    });
+  } catch(e){ diag('Falha ao criar o player'); mostrarErro(); }
+};
+(function(){
+  const s = document.createElement('script');
+  s.src = 'https://www.youtube.com/iframe_api';
+  s.onerror = mostrarErro;
+  document.head.appendChild(s);
+})();
+
+function tocar(){
+  if (pronto && player){ player.playVideo(); }
+  else { querTocar = true; }
+}
+
+/* ---------------- fluxo ---------------- */
+function revelar(){
+  const box = $('versos');
+  const els = versos.map(t => {
+    const p = document.createElement('p'); p.className = 'verso'; p.textContent = t; box.appendChild(p); return p;
+  });
+  const passo = reduzir ? 0 : 3600;
+  els.forEach((el, i) => setTimeout(() => {
+    el.classList.add('on');
+    el.scrollIntoView({behavior: reduzir ? 'auto' : 'smooth', block:'center'});
+  }, 700 + i * passo));
+
+  const fim = 700 + els.length * passo;
+  setTimeout(() => {
+    $('passagem').hidden = false;
+    requestAnimationFrame(() => $('passagem').classList.add('on'));
+    $('passagem').scrollIntoView({behavior: reduzir ? 'auto' : 'smooth', block:'center'});
+  }, fim);
+  setTimeout(() => {
+    $('pergunta').hidden = false;
+    requestAnimationFrame(() => $('pergunta').classList.add('on'));
+    $('pergunta').scrollIntoView({behavior: reduzir ? 'auto' : 'smooth', block:'center'});
+  }, fim + (reduzir ? 0 : 2200));
+}
+
+$('prisma').addEventListener('click', () => {
+  const b = $('prisma');
+  if (b.classList.contains('on')) return;
+  b.classList.add('on');
+  $('rotulo').textContent = 'Boa viagem';
+  $('legenda').textContent = 'Feche os olhos por um instante.';
+  tocar();     // dentro do clique, como o celular exige
+  revelar();
+});
+
+const respostas = ["Sério? A viagem já vai partir.", "Prometo uma trilha sonora à altura.", "Última chamada de embarque!", "Tá bom, vamos!"];
+let tentativa = 0;
+$('talvez').addEventListener('click', () => {
+  if (tentativa >= respostas.length - 1){ aceitar(); return; }
+  $('talvez').textContent = respostas[tentativa];
+  tentativa++;
+  $('sim').style.setProperty('--s', 1 + tentativa * .1);
+  if (tentativa === respostas.length - 1) $('talvez').textContent = respostas[tentativa];
+});
+
+function chuvaDeEstrelas(){
+  if (reduzir) return;
+  const f = document.createElement('div'); f.className = 'clarao'; document.body.appendChild(f);
+  setTimeout(() => f.remove(), 1200);
+  const cores = ['#ff4d4d','#ffb347','#ffe66d','#6fe3a0','#6fb9ff','#b58cff','#ffffff'];
+  for (let i = 0; i < 70; i++){
+    const p = document.createElement('span'); p.className = 'chuva';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.background = cores[i % cores.length];
+    p.style.setProperty('--dx', (Math.random() * 160 - 80) + 'px');
+    p.style.setProperty('--r', (Math.random() * 720 - 360) + 'deg');
+    p.style.animationDuration = (4 + Math.random() * 4) + 's';
+    p.style.animationDelay = (Math.random() * 1.8) + 's';
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 10500);
+  }
+}
+
+function aceitar(){
+  $('pergunta').hidden = true;
+  const msg = `Oi, ${CONFIG.seuNome}! Eu aceito embarcar nessa viagem. 🌙`;
+  $('zap').href = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(msg)}`;
+  $('resposta').hidden = false;
+  $('resposta').scrollIntoView({behavior: reduzir ? 'auto' : 'smooth', block:'center'});
+  chuvaDeEstrelas();
+}
+$('sim').addEventListener('click', aceitar);
+</script>
+</body>
+</html>
